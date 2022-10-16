@@ -3,6 +3,9 @@
 //! calculation in rust
 //!
 //! 
+// import rust functions from library
+//
+use rust_concurrency_playground_lib;
 // these crates are for timing
 extern crate stopwatch;
 use stopwatch::Stopwatch;
@@ -61,7 +64,8 @@ pub fn main() {
     // parallel demonstration sum to 1 billion
     let mut stopwatch_parallel_1b = Stopwatch::start_new();
     let parallel_sum: f64;
-    parallel_sum = parallel_sum_to_one_billion();
+    parallel_sum = rust_concurrency_playground_lib::
+        parallel_sum_to_one_billion();
 
     println!("parallel sum = {:?}", parallel_sum);
     stopwatch_parallel_1b.stop();
@@ -136,40 +140,3 @@ pub fn serial_sum_to_one_billion() -> f64 {
     return sum;
 }
 
-pub fn parallel_sum_to_one_billion() -> f64 {
-    let sum: f64;
-
-
-    // lets sum to 500 million in one thread
-    // and sum 500 million to 1billion in the other thread
-
-    // we will need to use a safe way to move
-    // data between threads, ie message passing
-    //
-    let (tx, rx) = mpsc::channel();
-
-    let _handle = thread::spawn(move || {
-        let mut thread_two_inner_sum = 0.0;
-
-        for i in 500000001..1000000001 {
-            thread_two_inner_sum =
-                thread_two_inner_sum + i as f64;
-        }
-        tx.send(thread_two_inner_sum).unwrap();
-
-    });
-
-    let mut thread_one_sum: f64 = 0.0;
-
-
-    for i in 1..500000001 {
-        thread_one_sum = thread_one_sum + i as f64;
-    }
-
-
-    let thread_two_sum = rx.recv().unwrap();
-
-    sum = thread_one_sum + thread_two_sum;
-
-    return sum;
-}

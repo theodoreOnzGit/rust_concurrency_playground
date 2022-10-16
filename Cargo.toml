@@ -7,3 +7,11 @@ edition = "2021"
 
 [dependencies]
 stopwatch = "0.0.7"
+
+[[bin]]
+name = "rust_concurrency_playground"
+path = "src/main.rs"
+
+[lib]
+name = "rust_concurrency_playground_lib"
+path = "src/lib/lib.rs"
