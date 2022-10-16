@@ -1,3 +1,8 @@
+#![warn(missing_docs)]
+//! This is a demo file for using concurrency and multithreaded
+//! calculation in rust
+//!
+//! 
 // these crates are for timing
 extern crate stopwatch;
 use stopwatch::Stopwatch;
@@ -12,7 +17,8 @@ use std::sync::mpsc;
 
 
 
-fn main() {
+/// The main function here just runs the comparison code
+pub fn main() {
     println!("Hello, world! \n");
     println!("We are summing to one thousand for first test");
 
@@ -65,7 +71,7 @@ fn main() {
 
 }
 
-fn serial_sum_to_one_thousand() -> f64{
+pub fn serial_sum_to_one_thousand() -> f64{
     let mut sum: f64 = 0.0;
     for i in 1..1001 {
         sum = sum + i as f64;
@@ -74,7 +80,7 @@ fn serial_sum_to_one_thousand() -> f64{
     return sum;
 }
 
-fn parallel_sum_to_one_thousand() -> f64 {
+pub fn parallel_sum_to_one_thousand() -> f64 {
     let sum: f64;
 
 
@@ -112,11 +118,15 @@ fn parallel_sum_to_one_thousand() -> f64 {
     return sum;
 }
 
+/// In this function, I sum approx one billion
+/// integers using a for loop   
+///
+/// For this function, I sum it using one thread
+/// only; it is a serial calculation
 // to see where parallel computation can shine
 // we might want to sum to a bigger number, eg
 // 1 billion
-
-fn serial_sum_to_one_billion() -> f64 {
+pub fn serial_sum_to_one_billion() -> f64 {
 
     let mut sum: f64 = 0.0;
     for i in 1..1000000001 {
@@ -126,7 +136,7 @@ fn serial_sum_to_one_billion() -> f64 {
     return sum;
 }
 
-fn parallel_sum_to_one_billion() -> f64 {
+pub fn parallel_sum_to_one_billion() -> f64 {
     let sum: f64;
 
 
